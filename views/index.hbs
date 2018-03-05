@@ -1,0 +1,65 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+
+<h1>Burgers!</h1>
+
+<h2>Burgers that are not devoured!</h2>
+
+{{!-- <ul>
+  {{#each burgers}}
+    {{#unless devoured}}
+      {{> burgers/burger-block devoured=true}}
+    {{/unless}}
+  {{/each}}
+</ul> --}}
+<table class="table">
+	<thead>
+		<th>Burger Name</th><th>Action</th>
+	</head>
+	<tbody>
+  {{#each burgers}}
+    {{#unless devoured}}
+      {{> burgers/burger-block devoured=true}}
+    {{/unless}}
+  {{/each}}
+</tbody>
+<table>
+{{!-- </ul> --}}
+<h2>Burgers that are devoured!</h2>
+
+{{!-- <ul>
+  {{#each burgers}}
+    {{#if devoured}}
+      {{> burgers/burger-block devoured=false}}
+    {{/if}}
+  {{/each}}
+</ul> --}}
+<table class="table">
+	<thead>
+		<th>Burger Name</th><th>Action</th>
+	</head>
+	<tbody>
+  {{#each burgers}}
+    {{#if devoured}}
+      {{> burgers/burger-block devoured=false}}
+    {{/if}}
+  {{/each}}
+</tbody>
+<table>
+
+<h2>Add a Burger</h2>
+<form class="create-form">
+
+  <div class="form-group">
+    <label for="burger-name">Burger Name:</label>
+    <input type="text" id="burger-name" name="name">
+  </div>
+
+  <div class="form-group">
+    <label for="devoured">Devoured?</label><br>
+    <input type="radio" name="devoured" value="0" checked> Ready to Eat!<br>
+    <input type="radio" name="devoured" value="1"> Already Eaten
+  </div>
+
+  <button type="submit">Add Burger</button>
+</form>
