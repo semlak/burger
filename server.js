@@ -28,11 +28,9 @@ app.engine("hbs", HBS({
 	layoutsDir: path.resolve(__dirname, 'views', 'layouts')
 }));
 app.set("view engine", "hbs");
-// exphbs.registerPartials(__dirname + '/views/partials');
-
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'assets','images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
