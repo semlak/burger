@@ -20,8 +20,10 @@ router.get("/", (req, res) => {
     res.render("index", hbsObject);
   });
 });
-
+let dumbarray = [];
 router.post("/api/burger", (req, res)  => {
+  dumbarray.push(req.body.burger_name);
+  console.log("dumbarray", dumbarray, "done");
   console.log("insert", req.body)
   // let burger = new Burger(req.body);
   // console.log("burger", burger)
