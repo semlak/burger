@@ -15,6 +15,7 @@ router.get("/", (req, res) => {
       burgers: data,
       title: "Awesome Burgers"
     };
+    // console.log(hbsObject);
     // console.log("hbsObject", hbsObject);
     // res.json(hbsObject);
     res.render("index", hbsObject);

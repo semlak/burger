@@ -1,14 +1,24 @@
-{{!-- <li id={{id}}>
-	{{burger_name}}
+<li id={{id}}>
+		<span class="item-name">
+			{{burger_name}}
+		</span>
 
-	<button class="change-devoured btn btn-primary" data-id="{{id}}" data-newdevoured="{{devoured}}">
-		{{#if devoured}}Devoured!{{else}}Reset!{{/if}}
-	</button>
-	<button class="delete btn btn-danger" data-id="{{id}}">Delete
-	</button>
+			{{#unless devoured}}
+				<!-- <button class="change-devoured btn-primary" data-id="{{id}}">x -->
+				<!-- </button> -->
+				<!-- <span class="eat-item" data-id="{{id}}">-></span> -->
+				<i class="change-item  eat fas fa-utensils" data-id="{{id}}"></i>
+
+
+			{{/unless}}
+				{{#if devoured}}
+					<!-- <button class="delete btn btn-sm btn-danger" data-id="{{id}}">x</button> -->
+					<i class="change-item delete fas fa-times" data-id="{{id}}"></i>
+
+				{{/if}}
 </li>
- --}}
- <tr id={{id}}>
+
+{{!--  <tr id={{id}}>
  	<td>
 		{{burger_name}}
 	</td>
@@ -21,3 +31,4 @@
 		</button></td>
 	{{/if}}
 </tr>
+ --}}

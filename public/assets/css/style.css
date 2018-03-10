@@ -6,3 +6,62 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+ul#available-items , ul#devoured-items {
+  list-style-type: none;
+
+}
+
+ul li {
+  line-height: 3;
+  width: 200px;
+  font-size: 18px;
+  border: 1px solid black;
+  /* padding: 5px auto; */
+  text-align: center;
+  margin-bottom: 1em;
+  /* padding:  */
+}
+
+
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+
+ul.example li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+ul.example li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
+}
+
+ul li  {
+  position: relative;
+  /* right: -10px; */
+}
+
+/* .delete-item  {
+  float: right;
+  margin-top: 1em;
+  margin-right: 1em;
+} */
+
+.change-item {
+  float: right;
+  margin-top: 1em;
+  margin-right: 1em;
+  color: #bbb;
+}
+
+.change-item:hover {
+  color : #000;
+}
