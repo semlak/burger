@@ -59,16 +59,6 @@ app.use((err, req, res, next) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
 // const app = require('../server');
 const debug = require('debug')('awesomeburger:server');
 const http = require('http');
@@ -151,9 +141,5 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
 }
-
-
-
-// module.exports = app;
