@@ -14,7 +14,7 @@ $.ajax({
 })
 
 const coerceToBool = p => {
-  console.log("typeof p", typeof p)
+  // console.log("typeof p", typeof p)
   switch (typeof p) {
     case "boolean" : return p;
     case "number" : return (p === 1 ? true : false);
@@ -23,20 +23,9 @@ const coerceToBool = p => {
   }
 }
 
-$(document).ready(function() {
-  var theData = {
-    headerTitle:"Shop Page",
-    weekDay: "Wednesday"
-  };
-  // We use the id (header) of the script tag to target it on the page
-  // var theTemplateScript = $("#header").html();
-  // let theTemplateScript = "<div> Name: {{ headerTitle }} </div>Today is {{weekDay}}"
-  // let theTemplate = Handlebars.compile(theTemplateScript);
-  // console.log("hey")
-  // console.log("out: ", theTemplate(theData));
-
+$(document).ready(() => {
   let devourItem = burgerId => {
-    console.log("in devourItem with id", burgerId);
+    // console.log("in devourItem with id", burgerId);
     const newDevouredState = {
       devoured: true
     };
@@ -48,7 +37,7 @@ $(document).ready(function() {
     }).then(() => {
       let $devouredItem = $("li#burger-" + burgerId);
       $devouredItem.remove().find(".draggable-indicator").remove();
-      var $faElement = $devouredItem.find("i")
+      let $faElement = $devouredItem.find("i")
       $faElement.removeClass("devour fa-utensils").addClass("delete fa-times")
       $devouredItem.appendTo($("ul#devoured-items"))
     })
@@ -62,7 +51,7 @@ $(document).ready(function() {
     $(document).on("click", ".change-item.devour", (e) => {
       const burgerId = $(e.currentTarget).data("id");
       const newDevoured = $(e.currentTarget).data("newdevoured");
-      console.log("hey, trying to update, id", burgerId, ", newDevoured", newDevoured )
+      // console.log("hey, trying to update, id", burgerId, ", newDevoured", newDevoured )
 
       devourItem(burgerId);
     });
@@ -79,7 +68,7 @@ $(document).ready(function() {
         console.log("need to put a burger name")
         return alert("need to put a burger name");
       }
-      console.log("newburger " , newburger);
+      // console.log("newburger " , newburger);
 
       $("#burger-name").val("");
       // Send the POST request.
@@ -88,7 +77,7 @@ $(document).ready(function() {
         data: newburger
       }).then(
         (res) => {
-          console.log("created new burger", res);
+          // console.log("created new burger", res);
           // rather than reload page, generate new item using client side template if available
           newburger.id = res.id;
           if (burgerLItemplate) {
@@ -123,20 +112,11 @@ $(document).ready(function() {
       pullPlaceholder: false,
       // animation on drop
       onDrop: function  ($item, container, _super) {
-        var $clonedItem = $('<li/>').css({height: 0});
-        // var $clonedItem = $('<li/>').css({height: 100px});
+        let $clonedItem = $('<li/>').css({height: 0});
         $item.before($clonedItem);
-        // $clonedItem.animate({'height': $item.height()});
-        console.log("$clonedItem.position()", $clonedItem.position())
-        // $item.animate($clonedItem.position(), function  () {
-        // $item.animate({top:91, left: 189}, function  () {
           $clonedItem.detach();
           _super($item, container);
-          console.log("$clonedItem.position()", $clonedItem.position())
-          console.log("$clonedItem", $clonedItem)
 
-        // });
-        // devourItem
         let burgerId = $item.attr("id").replace(/burger-(\d{1,})/, "$1");
         let destinationContainer = container.target.attr("id");
         if (destinationContainer === "devoured-items") {
@@ -146,7 +126,7 @@ $(document).ready(function() {
 
       // set $item relative to cursor position
       onDragStart: ($item, container, _super) => {
-        var offset = $item.offset(),
+        let offset = $item.offset(),
             pointer = container.rootGroup.pointer;
 
         adjustment = {

@@ -8,19 +8,19 @@ a {
 }
 
 .jumbotron {
-  background-color: lightgreen;
+  /* background-color: lightgreen; */
   border: 1px solid black;
   border-radius: .3em;
   text-align: center;
 }
-.card.list-container {
-  /* max-width: 300px; */
+.burger-list-card {
+  max-width: 300px;
+  margin: 0 auto;
   /* padding-top: 30px; */
 }
 
-.card.list-container ul {
+ul.burger-list  {
   list-style-type: none;
-  margin: 30px auto;
 }
 
 ul li {
@@ -77,6 +77,7 @@ ul.example li.placeholder:before {
 
 .change-item:hover {
   color : #000;
+  cursor: pointer;
 }
 
 ul#available-items li:hover{
@@ -113,3 +114,7 @@ ul#available-items li:hover{
 .draggable-indicator rect {
 	fill: #ccc;
 }
+
+ .burger-lists-row {
+   margin-bottom: 20px;
+ }

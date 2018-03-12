@@ -14,6 +14,7 @@ module.exports = class ORM {
 	}
 
 	static selectAll(cb) {
+    console.log(typeof cb);
 		let columnsToSelect = this.columns;
 		connection.query("select ?? from ??", [columnsToSelect, this.relation], (err, results) => {
 			if (err) { throw err}
@@ -22,16 +23,35 @@ module.exports = class ORM {
 	}
 
 	static insertOne(params, cb) {
-		let item = this.newMe(params);
-		item.save(cb);
-		// this.insert(params, cb);
+    let sqlStatement = 'insert into ?? set ?';
+		connection.query(sqlStatement, [this.relation].concat(params), (err, results, fields) => {
+			if (err) {throw err}
+			if (typeof cb === "function") {
+				// the rersults will be an object that says fieldCount, affectedRows, insertId, and some other stuff
+				cb(results);
+			}
+		})
 	}
 
 	static updateOne(params, cb) {
 		console.log("in ORM#updateOne")
-		let item = this.newMe(params);
-		item[this.idKey] = params[this.idKey];
-		item.update(cb);
+    let updates = Object.assign({}, params);
+    if (this.idKey in updates ) {
+      delete updates[this.idKey];
+    }
+    let itemId = params[this.idKey];
+    let queryOptions = {
+      sql: "update ?? set ? where ?? = ?",
+      values: [this.relation, updates, this.idKey, itemId]
+    };
+    connection.query(queryOptions, (err, results) => {
+      if (err) throw err;
+      cb (results);
+    })
+
+		// let item = this.newMe(params);
+		// item[this.idKey] = params[this.idKey];
+		// item.update(cb);
 	}
 
 	static delete(id, cb) {
@@ -39,25 +59,9 @@ module.exports = class ORM {
 
 		connection.query("delete from ?? where ?? = ?", [this.relation, this.idKey, id] , (err, results) =>{
 			if (err) throw err;
-			// console.log(results);
 			cb(results)
 		})
 	}
-
-
-
-
-	save(callback) {
-		let sqlStatement = 'insert into ?? SET ?';
-		connection.query(sqlStatement, [this.relation].concat(this.params), (err, results, fields) => {
-			if (err) {throw error}
-			if (typeof callback === "function") {
-				// the rersults will be an object that says fieldCount, affectedRows, insertId, and some other stuff
-				callback(results);
-			}
-		})
-	}
-
 
 	update(callback) {
 		let updates = Object.assign({}, this.params);
@@ -78,7 +82,6 @@ module.exports = class ORM {
 				callback(results)
 			})
 		}
-
 	}
 
 	static newMe(params) {
@@ -87,7 +90,3 @@ module.exports = class ORM {
 	}
 
 }
-
-
-
-

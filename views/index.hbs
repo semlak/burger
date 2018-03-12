@@ -1,37 +1,60 @@
-<div class="jumbotron mx-auto info">
-  <h1>{{title}}</h1>
-</div>
-
-<h1>Burgers!</h1>
-
-<div class="row">
+<div class="row burger-lists-row">
   <div class="col-md-6 col-12">
-    <div class="card list-container">
-      <ul id="available-items" class="simple_with_animation">
+    <div class="card burger-list-card">
+      <div class="card-header">
+        <h3>Ready to be eaten</h3>
+      </div>
+      <div class="card-body">
+        <ul id="available-items" class="burger-list simple_with_animation">
+            {{#each burgers}}
+              {{#unless devoured}}
+                {{> burgers/burger-block devoured=false}}
+              {{/unless}}
+            {{/each}}
+          </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-12">
+    <div class="card burger-list-card">
+      <div class="card-header">
+        <h3>Devoured burgers</h3>
+      </div>
+      <div class="card-body">
+        <ul id="devoured-items" class="burger-list simple_with_animation">
           {{#each burgers}}
-            {{#unless devoured}}
-              {{> burgers/burger-block devoured=false}}
-            {{/unless}}
+            {{#if devoured}}
+              {{> burgers/burger-block devoured=true}}
+            {{/if}}
           {{/each}}
         </ul>
+      </div>
     </div>
   </div>
-
-  <div class="col-md-6 col-12">
-    <div class="card  list-container">
-      <ul id="devoured-items" class="simple_with_animation">
-        {{#each burgers}}
-          {{#if devoured}}
-            {{> burgers/burger-block devoured=true}}
-          {{/if}}
-        {{/each}}
-      </ul>
-    </div>
-  </div>
-
 </div>
+
 <div class="row">
-  {{>burgers/burger-create}}
+  <div class="col">
+    {{>burgers/burger-create}}
+  </div>
 </div>
 <hr>
-<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+
+<footer class="footer">
+  <div class="row">
+    <div class="col-lg-12">
+      <p>
+        Copyright &copy; 2018 <a href="https://semlak.github.io/Bootstrap-Portfolio/" title="Joseph Semlak Portfolio" target="_blank">Joseph Semlak</a>|
+        <a href="/api/burger/" target="_blank">API Burgers List</a> |
+        <a href="https://github.com/semlak/burger/" target="_blank">GitHub Repository</a>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <p>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+      </p>
+    </div>
+  </div>
+</footer>

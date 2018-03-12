@@ -8,7 +8,7 @@ const idKey = 'id'
 // Export the database functions for the controller (catsController.js).
 
 const coerceToBool = p => {
-  console.log("typeof p", typeof p)
+  // console.log("typeof p", typeof p)
   switch (typeof p) {
     case "boolean" : return p;
     case "number" : return (p === 1 ? true : false);
@@ -30,11 +30,10 @@ module.exports = class Burger extends ORM {
   static newMe(params) {
     // I couldn't figure out how to have the parent class (ORM) create an instance of the derived class (Burger)
     // so I have all of the derived classes implement this function, which the returns an instantiated object
-
     let burger = new Burger(params);
     return burger;
   }
-
+  
   static all(cb) {
     // console.log("in models/burger.js#all")
     Burger.selectAll(cb);
@@ -48,7 +47,6 @@ module.exports = class Burger extends ORM {
     if ("devoured" in params) {
       params.devoured = coerceToBool(params.devoured);
     }
-
     Burger.updateOne(params, cb);
   }
 
