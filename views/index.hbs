@@ -1,71 +1,37 @@
-<div class="jumbotron">
+<div class="jumbotron mx-auto info">
   <h1>{{title}}</h1>
 </div>
 
 <h1>Burgers!</h1>
 
 <div class="row">
-  <div class="col-md-6 col-12 card">
-    {{!-- <table class="table"> --}}
-    	{{!-- -<thead> --}}
-    		{{!-- <th>Burger Name</th><th>Devour</th> --}}
-    	{{!-- </head> --}}
-    	{{!-- <tbody> --}}
+  <div class="col-md-6 col-12">
+    <div class="card list-container">
       <ul id="available-items" class="simple_with_animation">
-        {{#each burgers}}
-          {{#unless devoured}}
-            {{> burgers/burger-block devoured=false}}
-          {{/unless}}
-        {{/each}}
-      </ul>
-{{!--       </tbody>
-    </table> --}}
+          {{#each burgers}}
+            {{#unless devoured}}
+              {{> burgers/burger-block devoured=false}}
+            {{/unless}}
+          {{/each}}
+        </ul>
+    </div>
   </div>
 
-{{!-- </ul> --}}
-{{!-- <h2>Burgers that are devoured!</h2> --}}
-
-{{!-- <ul>
-  {{#each burgers}}
-    {{#if devoured}}
-      {{> burgers/burger-block devoured=false}}
-    {{/if}}
-  {{/each}}
-</ul> --}}
-  <div class="col-md-6 col-12 card">
-    {{!-- <table class="table"> --}}
-    	{{!-- <thead> --}}
-    		{{!-- <th>Burger Name</th><th>Delete</th> --}}
-    	{{!-- </head> --}}
-    	{{!-- <tbody> --}}
-        <ul id="devoured-items" class="simple_with_animation">
+  <div class="col-md-6 col-12">
+    <div class="card  list-container">
+      <ul id="devoured-items" class="simple_with_animation">
         {{#each burgers}}
           {{#if devoured}}
             {{> burgers/burger-block devoured=true}}
           {{/if}}
         {{/each}}
       </ul>
-      {{!-- </tbody> --}}
-    {{!-- </table> --}}
+    </div>
   </div>
+
 </div>
-{{!-- <div class="row"> --}}
-
-<h2>Add a Burger</h2>
-  <form class="create-form">
-
-    <div class="form-group">
-      <label for="burger-name">Burger Name:</label>
-      <input type="text" id="burger-name" name="name">
-    </div>
-
-    <div class="form-group">
-      <label for="devoured">Devoured?</label><br>
-      <input type="radio" name="devoured" value="0" checked> Ready to Eat!<br>
-      <input type="radio" name="devoured" value="1"> Already Eaten
-    </div>
-
-    <button type="submit">Add Burger</button>
-  </form>
-
-{{!-- </div> --}}
+<div class="row">
+  {{>burgers/burger-create}}
+</div>
+<hr>
+<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>

@@ -1,34 +1,37 @@
-<li id={{id}}>
-		<span class="item-name">
-			{{burger_name}}
-		</span>
-
-			{{#unless devoured}}
-				<!-- <button class="change-devoured btn-primary" data-id="{{id}}">x -->
-				<!-- </button> -->
-				<!-- <span class="eat-item" data-id="{{id}}">-></span> -->
-				<i class="change-item  eat fas fa-utensils" data-id="{{id}}"></i>
+<li id='burger-{{id}}'>
 
 
-			{{/unless}}
-				{{#if devoured}}
-					<!-- <button class="delete btn btn-sm btn-danger" data-id="{{id}}">x</button> -->
-					<i class="change-item delete fas fa-times" data-id="{{id}}"></i>
-
-				{{/if}}
-</li>
-
-{{!--  <tr id={{id}}>
- 	<td>
+	{{#unless devoured}}
+	<!-- <i class="fas fa-bars drag-indicator"></i> -->
+	<div class="draggable-indicator">
+		<!-- from https://resoundingechoes.net/development/style-draggable-elements-indicate-draggability/ -->
+	<svg viewBox="0 0 32 32">
+		<rect height="4" width="4" y="4" x="0"></rect>
+		<rect height="4" width="4" y="12" x="0"></rect>
+		<rect height="4" width="4" y="20" x="0"></rect>
+		<rect height="4" width="4" y="28" x="0"></rect>
+		<rect height="4" width="4" y="4" x="8"></rect>
+		<rect height="4" width="4" y="12" x="8"></rect>
+		<rect height="4" width="4" y="20" x="8"></rect>
+		<rect height="4" width="4" y="28" x="8"></rect>
+		<rect height="4" width="4" y="4" x="16"></rect>
+		<rect height="4" width="4" y="12" x="16"></rect>
+		<rect height="4" width="4" y="20" x="16"></rect>
+		<rect height="4" width="4" y="28" x="16"></rect>
+		<rect height="4" width="4" y="4" x="24"></rect>
+		<rect height="4" width="4" y="12" x="24"></rect>
+		<rect height="4" width="4" y="20" x="24"></rect>
+		<rect height="4" width="4" y="28" x="24"></rect>
+	</svg>
+	</div>
+	{{/unless}}
+	<span class='item-name'>
 		{{burger_name}}
-	</td>
-	{{#if devoured}}
-		<td><button class="change-devoured btn btn-primary" data-id="{{id}}" data-newdevoured="{{devoured}}">
-			Devour It
-		</button></td>
-	{{else}}
-		<td><button class="delete btn btn-danger" data-id="{{id}}">Delete
-		</button></td>
-	{{/if}}
-</tr>
- --}}
+	</span>
+		{{#unless devoured}}
+			<i class='change-item devour fas fa-utensils' data-id='{{id}}'></i>
+		{{/unless}}
+		{{#if devoured}}
+			<i class='change-item delete fas fa-times' data-id='{{id}}'></i>
+		{{/if}}
+</li>

@@ -1,173 +1,189 @@
 'use strict';
 
-let devourItem = id => {
-  console.log("in devourItem with id", id);
-  const newDevouredState = {
-    devoured: true
-  };
 
-  // Send the PUT request.
-  $.ajax("/api/burger/" + id, {
-    type: "PUT",
-    data: newDevouredState
-  }).then(
-    () => {
-      console.log("changed devoured to", true);
-      // Reload the page to get the updated list
-      location.reload();
-    }
-  );
+let burgerLItemplateScript = null;
+let burgerLItemplate = null;
+$.ajax({
+  url: "/assets/templates/partials/burgers/burger-block.hbs",
+  method: "GET"
+}).done(data => {
+  // console.log("data", data);
+  burgerLItemplateScript = data;
+  burgerLItemplate = Handlebars.compile(burgerLItemplateScript);
+
+})
+
+const coerceToBool = p => {
+  console.log("typeof p", typeof p)
+  switch (typeof p) {
+    case "boolean" : return p;
+    case "number" : return (p === 1 ? true : false);
+    case "string" : return (p === "true" || p === "1");
+    default : return (p == true);
+  }
 }
 
-// Make sure we wait to attach our handlers until the DOM is fully loaded.
-$(document).ready(() =>  {
+$(document).ready(function() {
+  var theData = {
+    headerTitle:"Shop Page",
+    weekDay: "Wednesday"
+  };
+  // We use the id (header) of the script tag to target it on the page
+  // var theTemplateScript = $("#header").html();
+  // let theTemplateScript = "<div> Name: {{ headerTitle }} </div>Today is {{weekDay}}"
+  // let theTemplate = Handlebars.compile(theTemplateScript);
+  // console.log("hey")
+  // console.log("out: ", theTemplate(theData));
 
-// })
-// $(() => {
-  $(".change-devoured").on("click", (e) => {
-    const id = $(e.currentTarget).data("id");
-    // const newDevoured = $(e.currentTarget).data("newdevoured");
-    // console.log("hey, trying to update, id", id, ", newDevoured", newDevoured )
-
-    devourItem(id);
-    // const newDevouredState = {
-    //   devoured: newDevoured
-    // };
-    //
-    // // Send the PUT request.
-    // $.ajax("/api/burger/" + id, {
-    //   type: "PUT",
-    //   data: newDevouredState
-    // }).then(
-    //   () => {
-    //     console.log("changed devoured to", newDevoured);
-    //     // Reload the page to get the updated list
-    //     location.reload();
-    //   }
-    // );
-  });
-
-  $(".create-form").on("submit", (event) => {
-    // Make sure to preventDefault on a submit event.
-    event.preventDefault();
-
-    const newburger = {
-      burger_name: $("#burger-name").val().trim(),
-      devoured: $("[name=devoured]:checked").val().trim()
+  let devourItem = burgerId => {
+    console.log("in devourItem with id", burgerId);
+    const newDevouredState = {
+      devoured: true
     };
-    if (!newburger.burger_name || newburger.burger_name.length < 1 ) {
-      console.log("need to put a burger name")
-      return alert("need to put a burger name");
-    }
-    console.log("newburger " , newburger)
 
-    // Send the POST request.
-    $.ajax("/api/burger", {
-      type: "POST",
-      data: newburger
-    }).then(
-      () => {
-        console.log("created new burger");
-        // Reload the page to get the updated list
-        location.reload();
-      }
-    );
-  });
-
-
-  $(".delete-item").on("click", (e) => {
-    let id = $(e.currentTarget).data("id");
-    e.preventDefault();
-
-    console.log($(e.currentTarget).data("id"))
-    // return;
-
-    $.ajax({
-      url: "/api/burger/" + id,
-      method: "DELETE"
-    }).done(res => {
-      // console.log(res);
-      $("li#" + id).remove();
-      // $("tr#" + id).remove();
+    // Send the PUT request.
+    $.ajax("/api/burger/" + burgerId, {
+      type: "PUT",
+      data: newDevouredState
+    }).then(() => {
+      let $devouredItem = $("li#burger-" + burgerId);
+      $devouredItem.remove().find(".draggable-indicator").remove();
+      var $faElement = $devouredItem.find("i")
+      $faElement.removeClass("devour fa-utensils").addClass("delete fa-times")
+      $devouredItem.appendTo($("ul#devoured-items"))
     })
-  })
+  }
 
-  let adjustment = null;
+  // Make sure we wait to attach our handlers until the DOM is fully loaded.
+  $(document).ready(() =>  {
 
+  // })
+  // $(() => {
+    $(document).on("click", ".change-item.devour", (e) => {
+      const burgerId = $(e.currentTarget).data("id");
+      const newDevoured = $(e.currentTarget).data("newdevoured");
+      console.log("hey, trying to update, id", burgerId, ", newDevoured", newDevoured )
 
-  $("ul.simple_with_animation").sortable({
-    group: 'simple_with_animation',
-    pullPlaceholder: false,
-    // animation on drop
-    onDrop: function  ($item, container, _super) {
-      var $clonedItem = $('<li/>').css({height: 0});
-      $item.before($clonedItem);
-      $clonedItem.animate({'height': $item.height()});
+      devourItem(burgerId);
+    });
 
-      $item.animate($clonedItem.position(), function  () {
-        $clonedItem.detach();
-        _super($item, container);
-      });
-      console.log("hey", container, "$item", $item);
-      // devourItem
-      let id = $item.attr("id");
-      let destinationContainer = container.target.attr("id");
-      if (destinationContainer === "devoured-items") {
-        devourItem(id);
-      }
-      // console.log("id:", id);
-      // console.log((container.target).attr("id"))
+    $(".create-form").on("submit", (event) => {
+      // Make sure to preventDefault on a submit event.
+      event.preventDefault();
 
-    },
-
-    // set $item relative to cursor position
-    onDragStart: ($item, container, _super) => {
-      var offset = $item.offset(),
-          pointer = container.rootGroup.pointer;
-
-      adjustment = {
-        left: pointer.left - offset.left,
-        top: pointer.top - offset.top
+      const newburger = {
+        burger_name: $("#burger-name").val().trim(),
+        devoured: coerceToBool($("[name=devoured]:checked").val().trim())
       };
-      $item.css({
-        background: "black"
+      if (!newburger.burger_name || newburger.burger_name.length < 1 ) {
+        console.log("need to put a burger name")
+        return alert("need to put a burger name");
+      }
+      console.log("newburger " , newburger);
+
+      $("#burger-name").val("");
+      // Send the POST request.
+      $.ajax("/api/burger", {
+        type: "POST",
+        data: newburger
+      }).then(
+        (res) => {
+          console.log("created new burger", res);
+          // rather than reload page, generate new item using client side template if available
+          newburger.id = res.id;
+          if (burgerLItemplate) {
+            $("ul#" + (newburger.devoured ? "devoured-items" : "available-items"))
+              .append($(burgerLItemplate(newburger)));
+          }
+          else {
+            location.reload();
+          }
+        }
+      );
+    });
+
+
+    $(document).on("click", ".change-item.delete", (e) => {
+      let burgerId = $(e.currentTarget).data("id");
+      e.preventDefault();
+      $.ajax({
+        url: "/api/burger/" + burgerId,
+        method: "DELETE"
+      }).done(res => {
+        let selectorOfElementToRemove = "li#burger-" + burgerId
+        $("li#burger-" + burgerId).toggle();
       })
+    })
 
 
+    // sortable jquery lists (for item dragging from avaiable to devoured menu)
+    let adjustment = null;
+    $("ul.simple_with_animation").sortable({
+      group: 'simple_with_animation',
+      pullPlaceholder: false,
+      // animation on drop
+      onDrop: function  ($item, container, _super) {
+        var $clonedItem = $('<li/>').css({height: 0});
+        // var $clonedItem = $('<li/>').css({height: 100px});
+        $item.before($clonedItem);
+        // $clonedItem.animate({'height': $item.height()});
+        console.log("$clonedItem.position()", $clonedItem.position())
+        // $item.animate($clonedItem.position(), function  () {
+        // $item.animate({top:91, left: 189}, function  () {
+          $clonedItem.detach();
+          _super($item, container);
+          console.log("$clonedItem.position()", $clonedItem.position())
+          console.log("$clonedItem", $clonedItem)
 
-      _super($item, container);
-    },
-    onDrag:  ($item, position) => {
-      $item.css({
-        left: position.left - adjustment.left,
-        top: position.top - adjustment.top,
-      });
-    },
-    isValidTarget: ($item, container) => {
-      // return container.currentTarget.attr("id") === "available-items";
-      // console.log(container);
-      return container.target.attr("id") === "devoured-items";
+        // });
+        // devourItem
+        let burgerId = $item.attr("id").replace(/burger-(\d{1,})/, "$1");
+        let destinationContainer = container.target.attr("id");
+        if (destinationContainer === "devoured-items") {
+          devourItem(burgerId);
+        }
+      },
 
-      // return true;
-    },
-    exclude: 'ul#devoured-items li'
-    // drop: false,
-    // drag: false
-    // drag:
-    // drop: false
-    // afterMove: ($placeholder, container, $closestContainer) => {
-    //   console.log("$placeholder", $placeholder, "container", container, "$closestContainer", $closestContainer)
-    // }
+      // set $item relative to cursor position
+      onDragStart: ($item, container, _super) => {
+        var offset = $item.offset(),
+            pointer = container.rootGroup.pointer;
+
+        adjustment = {
+          left: pointer.left - offset.left,
+          top: pointer.top - offset.top
+        };
+        $item.css({
+          background: "black"
+        })
+
+        _super($item, container);
+      },
+
+      onDrag: ($item, position) => {
+        $item.css({
+          left: position.left - adjustment.left,
+          top: position.top - adjustment.top,
+        });
+      },
+
+      isValidTarget: ($item, container) => {
+        return container.target.attr("id") === "devoured-items";
+      },
+      exclude: 'ul#devoured-items li',
+      tolerance: 100
+    });
+
+    // $("ul#available-items").sortable({
+    //   group: "simple_with_animation",
+    //   drop: true,
+    //   drag: true,
+    // })
+
+    // $("ul#devoured-items").sortable({
+    //   group: "simple_with_animation",
+    //   drop: false,
+    //   drag: false,
+    // })
   });
-  $("ul#available-items").sortable({
-    group: "simple_with_animation",
-    drop: false,
-    drag: false,
-  })
-
-  $("ul#devoured-items").sortable({
-    group: "simple_with_animation",
-    drop: false,
-    drag: false,
-  })
-});
+})
