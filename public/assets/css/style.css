@@ -13,38 +13,6 @@ a {
   border-radius: .3em;
   text-align: center;
 }
-.burger-list-card {
-  max-width: 300px;
-  margin: 0 auto;
-  /* padding-top: 30px; */
-}
-
-ul.burger-list  {
-  list-style-type: none;
-}
-
-ul li {
-  /* line-height: 3; */
-  width: 200px;
-  font-size: 18px;
-  border: 1px solid black;
-  /* padding: 5px auto; */
-  text-align: center;
-  /* margin-bottom: 1em; */
-  /* padding:  */
-}
-
-ul#available-items li {
-  line-height: 3;
-  margin-bottom: 1em;
-  border-radius: .3em;
-}
-
-ul#devoured-items li {
-  line-height: 3;
-  margin-bottom: .3em;
-}
-
 /*  for making items dragable */
 
 body.dragging, body.dragging * {
@@ -68,9 +36,45 @@ ul.example li.placeholder:before {
 
 
 
+
+.burger-list-card {
+  max-width: 300px;
+  margin: 0 auto;
+  /* padding-top: 30px; */
+}
+
+ul.burger-list  {
+  list-style-type: none;
+}
+
+ul li {
+  /* line-height: 3; */
+  width: 200px;
+  font-size: 18px;
+  border: 1px solid black;
+  /* padding: 5px auto; */
+  text-align: center;
+  /* margin-bottom: 1em; */
+
+  /* padding:  */
+  padding-top: 1em;
+  padding-bottom: 1em;
+
+}
+
+ul#available-items li {
+  margin-bottom: 1em;
+  border-radius: .3em;
+}
+
+ul#devoured-items li {
+  margin-bottom: .3em;
+}
+
+
 .change-item {
   float: right;
-  margin-top: 1em;
+  margin-top: 0em;
   margin-right: 1em;
   color: #bbb;
 }
@@ -100,14 +104,14 @@ ul#available-items li:hover{
 
 	/* position: absolute; */
 	/* right: 5em; */
-  float: left;
-  margin-left: .5em;
-  /* margin-top: 1em; */
+	float: left;
+	margin-left: .5em;
+	/* margin-top: 1em; */
 
 	/* top: 0; */
 	/* bottom: 0; */
 	/* margin: auto; */
-  /* left: 30px; */
+	/* left: 30px; */
 }
 
 /* coloring the individual dots within each group */
