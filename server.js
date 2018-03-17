@@ -18,7 +18,7 @@ const bodyParser = require('body-parser');
 const index = require("./controllers/burgers_controller")
 
 const app = express();
-
+const fs = require("fs")
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 const HBS = require("express-handlebars")
@@ -28,6 +28,19 @@ app.engine("hbs", HBS({
 	layoutsDir: path.resolve(__dirname, 'views', 'layouts')
 }));
 app.set("view engine", "hbs");
+var partialsDir = __dirname + '/views/partials';
+
+var filenames = fs.readdirSync(partialsDir);
+
+filenames.forEach(function (filename) {
+  var matches = /^([^.]+).hbs$/.exec(filename);
+  if (!matches) {
+    return;
+  }
+  var name = matches[1];
+  var template = fs.readFileSync(partialsDir + '/' + filename, 'utf8');
+  hbs.registerPartial(name, template);
+});
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'assets','images', 'favicon.ico')));

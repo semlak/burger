@@ -43,6 +43,14 @@ $(document).ready(() => {
     })
   }
 
+  let modalError = errorMessage => {
+        let element = $("<div>")
+        // .append($("<h5>").text("Error"))
+        .append($("<p>").text(errorMessage));
+        $("#error-modal .modal-body").empty().append(element);
+        $("#error-modal").modal("show")
+  }
+
   // Make sure we wait to attach our handlers until the DOM is fully loaded.
   $(document).ready(() =>  {
 
@@ -66,7 +74,8 @@ $(document).ready(() => {
       };
       if (!newburger.burger_name || newburger.burger_name.length < 1 ) {
         console.log("need to put a burger name")
-        return alert("need to put a burger name");
+        // return alert("need to put a burger name");
+        return modalError("Please input something for a burger name!")
       }
       // console.log("newburger " , newburger);
 
