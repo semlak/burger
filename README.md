@@ -17,7 +17,7 @@ cd burger
 npm install
 ```
 
-Before running ```npm start```, you need to setup your MySql credentials. These go in an .env file (not provided by the repository, due to the data being private).
+Before running ```npm start```, you need to setup your MySql credentials and create the initial database. The credentials go in an .env file (not provided by the repository, due to the data being private).
 The format for the .env file is as follows:
 ```
 # your .env file
@@ -25,3 +25,9 @@ DBHOST='localhost'
 DBPORT=3306
 DBUSER='YourUserNameInQuotes'
 DBPASSWD='YourPasswordInQuotes'
+```
+
+# Creating the database.
+These mysql commands assume your user account has a password. The -p argument will propmpt you for a password. Leave off if you have no password.
+To create the database, run `mysql -p < db/schema.sql`  
+If you would like to seed the database with some initial data (not required), run `mysql -p < db/seeds.sql`
